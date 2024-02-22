@@ -1,41 +1,52 @@
 <template>
   <div class="container">
-    <task-form @create="addTask"/>
-    <task-list :tasks="tasks" />
+    <my-input v-model="task" />
+    <my-button @click="addTask">Добавить задачу</my-button>
+    <task-list :tasks="tasks" @remove="deleteTask" />
   </div>
 </template>
 
 <script>
-import TaskForm from "./components/TaskForm.vue";
 import TaskList from "./components/TaskList.vue";
 export default {
+  name: "app",
   components: {
-    TaskForm,
     TaskList,
   },
   data() {
     return {
-      tasks: [
-        {
-          title: "Пример задания",
-          time:
-            "Дата публикации: " +
-            new Date().getHours() +
-            ":" +
-            new Date().getMinutes(),
-          id: new Date().getTime(),
-        },
-      ],
+      task: "",
+      elementForAdd: {},
+      tasks: [],
     };
   },
   methods: {
-    addTask(task) {
-      this.tasks.push(task)
+    deleteTask(task) {
+      const index = this.tasks.indexOf(task);
+      if (index === -1) {
+        return;
+      }
+      this.tasks.splice(index, 1);
+    },
+    addTask() {
+      if (this.task === "") return;
+      const timeString = new Date().getHours() + ":" + new Date().getMinutes();
+      this.elementForAdd.time = timeString;
+      this.elementForAdd.id = Date.now();
+      this.elementForAdd.text = this.task;
+      this.elementForAdd.status = 'Нет';
+      this.tasks.push(this.elementForAdd);
+      this.task = "";
+      this.elementForAdd = {
+        time: "",
+        id: "",
+        text: "",
+        status: "",
+      };
     },
   },
 };
 </script>
-
 <style>
 *,
 *:before,
@@ -57,8 +68,5 @@ body {
   right: 0;
   top: 30px;
   padding: 30px 40px;
-}
-.completed{
-    text-decoration: line-through;
 }
 </style>
