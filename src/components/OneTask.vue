@@ -15,6 +15,7 @@ export default {
       required: true,
     },
   },
+  emits:['remove']
 };
 </script>
 <style scoped>

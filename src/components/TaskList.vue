@@ -1,5 +1,5 @@
 <template>
-  <div class="tasks">
+  <div v-show="tasks.length > 0" class="tasks">
     <one-task
       v-for="task in tasks"
       :task="task"
@@ -7,14 +7,15 @@
       @remove="deleteTask"
     />
   </div>
+  <h2 class="h2" v-show="tasks.length === 0"> Список задач пуст ...</h2>
 </template>
 <script>
 import OneTask from "./OneTask.vue";
 export default {
-  name: "task-list",
   components: {
     OneTask,
   },
+  name: "task-list",
   props: {
     tasks: {
       type: Array,
@@ -22,6 +23,7 @@ export default {
       default: () => [],
     },
   },
+  emits: ["remove"],
   methods: {
     deleteTask(task) {
       this.$emit("remove", task);
@@ -38,5 +40,9 @@ export default {
   box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
   width: 100%;
   position: relative;
+}
+.h2{
+  margin-top: 60px;
+  color: yellow
 }
 </style>
