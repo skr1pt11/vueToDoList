@@ -1,7 +1,10 @@
 <template>
   <div class="container">
     <my-input v-model="task" />
-    <my-button @click="addTask">Добавить задачу</my-button>
+    <div class="btns">
+      <my-button @click="addTask">Добавить задачу</my-button>
+      <task-selector v-model="selectedSort" :options="sortOptions" />
+    </div>
     <task-list :tasks="tasks" @remove="deleteTask" />
   </div>
 </template>
@@ -15,6 +18,17 @@ export default {
   },
   data() {
     return {
+      selectedSort: "",
+      sortOptions: [
+        {
+          value: "text",
+          name: "По названию",
+        },
+        {
+          value: "time",
+          name: "По дате",
+        },
+      ],
       task: "",
       elementForAdd: {},
       tasks: [],
@@ -34,7 +48,7 @@ export default {
       this.elementForAdd.time = timeString;
       this.elementForAdd.id = Date.now();
       this.elementForAdd.text = this.task;
-      this.elementForAdd.status = 'Нет';
+      this.elementForAdd.status = "Нет";
       this.tasks.push(this.elementForAdd);
       this.task = "";
       this.elementForAdd = {
@@ -45,6 +59,13 @@ export default {
       };
     },
   },
+  watch:{
+    selectedSort(newValue){
+      this.tasks.sort((task1, task2)=>{
+        return task1[newValue].localeCompare(task2[newValue])
+      })
+    }
+  }
 };
 </script>
 <style>
@@ -68,5 +89,9 @@ body {
   right: 0;
   top: 30px;
   padding: 30px 40px;
+}
+.btns {
+  display: flex;
+  justify-content: flex-end;
 }
 </style>
