@@ -1,6 +1,5 @@
 <template>
   <input
-    placeholder="Введите задачу ..."
     type="text"
     class="input"
     :value="modelValue"

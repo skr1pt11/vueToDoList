@@ -1,9 +1,10 @@
 <template>
   <div class="container">
-    <my-input v-model="task" />
+    <my-input v-model="task" placeholder="Введите задачу ..."/>
     <div class="btns">
       <my-button @click="addTask">Добавить задачу</my-button>
       <task-selector v-model="selectedSort" :options="sortOptions" />
+      <my-input placeholder="Поиск ..." v-model="keyword"/>
     </div>
     <task-list :tasks="tasks" @remove="deleteTask" />
   </div>
@@ -18,6 +19,7 @@ export default {
   },
   data() {
     return {
+      keyword: '',
       selectedSort: "",
       sortOptions: [
         {
@@ -25,7 +27,7 @@ export default {
           name: "По названию",
         },
         {
-          value: "time",
+          value: "id",
           name: "По дате",
         },
       ],
@@ -59,10 +61,20 @@ export default {
       };
     },
   },
-  watch:{
-    selectedSort(newValue){
-      this.tasks.sort((task1, task2)=>{
-        return task1[newValue].localeCompare(task2[newValue])
+  watch: {
+    selectedSort(newValue) {
+      this.tasks.sort((task1, task2) => {
+        if(newValue === 'text'){
+          return task1[newValue].localeCompare(task2[newValue]);
+        }
+        return task1[newValue] - task2[newValue]
+      });
+    },
+  },
+  computed:{
+    sortByKeyword(){
+      return this.task.filter((item)=>{
+        return item.name.toLowerCase().includes(this.keyword.toLowerCase()).sort(selectedSort())
       })
     }
   }
