@@ -1,12 +1,12 @@
 <template>
   <div class="container">
-    <my-input v-model="task" placeholder="Введите задачу ..."/>
+    <my-input v-model="task" placeholder="Введите задачу ..." />
     <div class="btns">
       <my-button @click="addTask">Добавить задачу</my-button>
       <task-selector v-model="selectedSort" :options="sortOptions" />
-      <my-input placeholder="Поиск ..." v-model="keyword"/>
+      <my-input placeholder="Поиск ..." v-model="keyword" />
     </div>
-    <task-list :tasks="tasks" @remove="deleteTask" />
+    <task-list :tasks="sortByKeyword" @remove="deleteTask" />
   </div>
 </template>
 
@@ -19,7 +19,7 @@ export default {
   },
   data() {
     return {
-      keyword: '',
+      keyword: "",
       selectedSort: "",
       sortOptions: [
         {
@@ -61,23 +61,23 @@ export default {
       };
     },
   },
-  watch: {
-    selectedSort(newValue) {
-      this.tasks.sort((task1, task2) => {
-        if(newValue === 'text'){
-          return task1[newValue].localeCompare(task2[newValue]);
+  computed: {
+    sortedTasks() {
+      return [...this.tasks].sort((task1, task2) => {
+        if (this.selectedSort === "text") {
+          return task1[this.selectedSort].localeCompare(
+            task2[this.selectedSort]
+          );
         }
-        return task1[newValue] - task2[newValue]
+        return task1[this.selectedSort] - task2[this.selectedSort];
+      });
+    },
+    sortByKeyword() {
+      return this.sortedTasks.filter((item) => {
+        return item.text.toLowerCase().includes(this.keyword.toLowerCase());
       });
     },
   },
-  computed:{
-    sortByKeyword(){
-      return this.task.filter((item)=>{
-        return item.name.toLowerCase().includes(this.keyword.toLowerCase()).sort(selectedSort())
-      })
-    }
-  }
 };
 </script>
 <style>
