@@ -34,6 +34,7 @@ export default {
       task: "",
       elementForAdd: {},
       tasks: [],
+      arr:[],
     };
   },
   methods: {
@@ -43,6 +44,7 @@ export default {
         return;
       }
       this.tasks.splice(index, 1);
+      localStorage.setItem("task", JSON.stringify(this.tasks));
     },
     addTask() {
       if (this.task === "") return;
@@ -53,6 +55,7 @@ export default {
       this.elementForAdd.status = "Нет";
       this.tasks.push(this.elementForAdd);
       this.task = "";
+      localStorage.setItem("task", JSON.stringify(this.tasks));
       this.elementForAdd = {
         time: "",
         id: "",
@@ -77,6 +80,12 @@ export default {
         return item.text.toLowerCase().includes(this.keyword.toLowerCase());
       });
     },
+  },
+  mounted() {
+    let data = localStorage.getItem("task");
+    if (data) {
+      this.tasks = JSON.parse(data);
+    }
   },
 };
 </script>
