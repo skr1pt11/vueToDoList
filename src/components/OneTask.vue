@@ -2,7 +2,17 @@
   <div class="newtask">
     <p><strong class="black">Задача: </strong>{{ task.text }}</p>
     <p><strong class="black">Время: </strong>{{ task.time }}</p>
-    <p><strong class="black">Выполнена: </strong>{{ task.status }}</p>
+    <p>
+      <strong class="black">Статус: </strong>
+      <input
+      type="checkbox"
+      v-model="userCheckbox"
+      :true-value="on"
+      :false-value="off"
+    />
+      <span v-if="userCheckbox === on">Решена</span>
+      <span v-else>Не решена</span>
+    </p>
     <my-button @click="$emit('remove', task)">Удалить</my-button>
   </div>
 </template>
@@ -14,8 +24,25 @@ export default {
       type: Object,
       required: true,
     },
+    check: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
   },
-  emits:['remove']
+  emits: ["remove"],
+  data() {
+    return {
+      userCheckbox: this.check,
+      on: true,
+      off: false,
+    };
+  },
+  watch: {
+    check(newValue) {
+      this.userCheckbox = newValue;
+    },
+  },
 };
 </script>
 <style scoped>
@@ -31,7 +58,7 @@ export default {
 .newtask p {
   color: whitesmoke;
 }
-.black{
+.black {
   color: black;
 }
 </style>

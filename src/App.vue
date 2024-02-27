@@ -6,7 +6,7 @@
       <task-selector v-model="selectedSort" :options="sortOptions" />
       <my-input placeholder="Поиск ..." v-model="keyword" />
     </div>
-    <task-list :tasks="sortByKeyword" @remove="deleteTask" />
+    <task-list :tasks="sortByKeyword" @remove="deleteTask" v-model="checkboxStatus" :check="checkboxStatus"/>
   </div>
 </template>
 
@@ -19,6 +19,7 @@ export default {
   },
   data() {
     return {
+      checkboxStatus: false,
       keyword: "",
       selectedSort: "",
       sortOptions: [
@@ -34,7 +35,6 @@ export default {
       task: "",
       elementForAdd: {},
       tasks: [],
-      arr:[],
     };
   },
   methods: {
@@ -52,7 +52,6 @@ export default {
       this.elementForAdd.time = timeString;
       this.elementForAdd.id = Date.now();
       this.elementForAdd.text = this.task;
-      this.elementForAdd.status = "Нет";
       this.tasks.push(this.elementForAdd);
       this.task = "";
       localStorage.setItem("task", JSON.stringify(this.tasks));
@@ -60,7 +59,6 @@ export default {
         time: "",
         id: "",
         text: "",
-        status: "",
       };
     },
   },

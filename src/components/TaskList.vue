@@ -3,11 +3,12 @@
     <one-task
       v-for="task in tasks"
       :task="task"
+      :check="check"
       :key="task.id"
       @remove="deleteTask"
     />
   </div>
-  <h2 class="h2" v-show="tasks.length === 0"> Список задач пуст ...</h2>
+  <h2 class="h2" v-show="tasks.length === 0">Список задач пуст ...</h2>
 </template>
 <script>
 import OneTask from "./OneTask.vue";
@@ -21,6 +22,11 @@ export default {
       type: Array,
       required: true,
       default: () => [],
+    },
+    check: {
+      type: Boolean,
+      required: true,
+      default: false,
     },
   },
   emits: ["remove"],
@@ -41,8 +47,8 @@ export default {
   width: 100%;
   position: relative;
 }
-.h2{
+.h2 {
   margin-top: 60px;
-  color: yellow
+  color: yellow;
 }
 </style>
