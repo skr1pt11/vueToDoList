@@ -5,13 +5,13 @@
     <p>
       <strong class="black">Статус: </strong>
       <input
-      type="checkbox"
-      v-model="userCheckbox"
-      :true-value="on"
-      :false-value="off"
-    />
-      <span v-if="userCheckbox === on">Решена</span>
-      <span v-else>Не решена</span>
+        type="checkbox"
+        v-model="userCheckbox"
+        :true-value="on"
+        :false-value="off"
+      />
+      <span v-if="userCheckbox === on" class="greenyellow">Решена</span>
+      <span v-else class="red">Не решена</span>
     </p>
     <my-button @click="$emit('remove', task)">Удалить</my-button>
   </div>
@@ -60,5 +60,11 @@ export default {
 }
 .black {
   color: black;
+}
+.greenyellow {
+  color: greenyellow;
+}
+.red{
+  color: rgba(16, 45, 212, 0.699);
 }
 </style>

@@ -48,7 +48,7 @@ export default {
     },
     addTask() {
       if (this.task === "") return;
-      const timeString = new Date().getHours() + ":" + new Date().getMinutes();
+      const timeString = new Date().getHours() + ":" + new Date().getMinutes()+ ":" + new Date().getSeconds();
       this.elementForAdd.time = timeString;
       this.elementForAdd.id = Date.now();
       this.elementForAdd.text = this.task;
